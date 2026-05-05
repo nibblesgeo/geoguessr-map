@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GeoGuessr Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --panel: #111827;
+      --border: #1e2d40;
+      --accent: #00d4ff;
+      --accent2: #ff6b35;
+      --correct: #00ff88;
+      --wrong: #ff4455;
+      --text: #e8f0ff;
+      --muted: #5a7a9a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Starfield background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.2) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,0.15) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.25) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 0.3rem;
+      letter-spacing: 1px;
+    }
+
+    /* Score bar */
+    #scorebar {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin: 0.5rem 0 1.5rem;
+      z-index: 1;
+      position: relative;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Main layout */
+    #app {
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 1rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Photo panel */
+    #photo-panel {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 1rem;
+      position: relative;
+      background: var(--panel);
+    }
+
+    #location-img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.4s;
+    }
+
+    #round-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+    }
+
+    #hint-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #hint-btn:hover { background: rgba(255,107,53,0.2); }
+
+    #hint-text {
+      display: none;
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    /* Map container */
+    #map-wrapper {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      background: var(--panel);
+    }
+
+    #map-label {
+      padding: 0.8rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    #map {
+      width: 100%;
+      height: 380px;
+      display: block;
+    }
+
+    /* Result overlay */
+    #result-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(10,14,26,0.92);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: 12px;
+      z-index: 10;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #result-overlay.show { display: flex; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    #result-icon { font-size: 3.5rem; }
+
+    #result-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 3px;
+    }
+
+    #result-title.correct { color: var(--correct); }
+    #result-title.wrong   { color: var(--wrong); }
+
+    #result-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+      max-width: 300px;
+      line-height: 1.5;
+    }
+
+    #next-btn {
+      margin-top: 0.5rem;
+      background: linear-gradient(135deg, var(--accent), #0099bb);
+      color: #000;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      border: none;
+      padding: 0.7rem 2.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    #next-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,212,255,0.3);
+    }
+
+    /* SVG map styles */
+    .country {
+      fill: #1a2a3a;
+      stroke: #2a3f55;
+      stroke-width: 0.5;
+      cursor: pointer;
+      transition: fill 0.15s;
+    }
+
+    .country:hover { fill: #2a4a6a; }
+    .country.selected { fill: var(--accent) !important; opacity: 0.8; }
+    .country.correct-answer { fill: var(--correct) !important; opacity: 0.9; }
+    .country.wrong-answer   { fill: var(--wrong) !important;   opacity: 0.9; }
+
+    /* Loading state */
+    #loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--panel);
+      z-index: 5;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 3px;
+      color: var(--muted);
+      font-size: 1.2rem;
+    }
+
+    /* Discord connect panel */
+    #discord-panel {
+      margin-top: 1rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    #discord-panel p {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    #discord-panel strong { color: var(--text); }
+
+    #player-name-input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      width: 180px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #player-name-input:focus { border-color: var(--accent); }
+
+    #submit-score-btn {
+      background: #5865F2;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #submit-score-btn:hover { background: #4752c4; }
+
+    #submit-status {
+      font-size: 0.8rem;
+      color: var(--correct);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>GeoGuessr</h1>
+  <p>CLICK THE COUNTRY ON THE MAP</p>
+</header>
+
+<div id="scorebar">
+  <div class="stat">
+    <div class="stat-value" id="score-display">0</div>
+    <div class="stat-label">Score</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" id="round-display">1</div>
+    <div class="stat-label">Round</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" id="streak-display">0</div>
+    <div class="stat-label">Streak</div>
+  </div>
+</div>
+
+<div id="app">
+
+  <!-- Photo -->
+  <div id="photo-panel">
+    <img id="location-img" src="" alt="Guess this location"/>
+    <div id="round-badge">ROUND <span id="round-num">1</span></div>
+    <button id="hint-btn" onclick="showHint()">💡 HINT</button>
+    <div id="hint-text" id="hint-display"></div>
+  </div>
+
+  <!-- Map -->
+  <div id="map-wrapper">
+    <div id="map-label">📍 Click the correct country on the map</div>
+    <div id="loading">LOADING MAP...</div>
+    <svg id="map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="result-overlay">
+      <div id="result-icon"></div>
+      <div id="result-title"></div>
+      <div id="result-desc"></div>
+      <button id="next-btn" onclick="nextRound()">NEXT ROUND →</button>
+    </div>
+  </div>
+
+  <!-- Discord score submit -->
+  <div id="discord-panel">
+    <p><strong>Playing via Discord?</strong> Enter your username to sync your score.</p>
+    <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+      <input id="player-name-input" type="text" placeholder="Your Discord username"/>
+      <button id="submit-score-btn" onclick="submitScore()">Submit Score</button>
+      <span id="submit-status">✅ Score submitted!</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// =====================
+// LOCATIONS
+// =====================
+const locations = [
+  { country: 'France',       countryId: 'FR', hint: 'Home of the Eiffel Tower',         image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800' },
+  { country: 'Japan',        countryId: 'JP', hint: 'Land of the Rising Sun',            image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800' },
+  { country: 'Brazil',       countryId: 'BR', hint: 'Famous for Carnival and the Amazon',image: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800' },
+  { country: 'Egypt',        countryId: 'EG', hint: 'Land of the Pharaohs and Pyramids', image: 'https://images.unsplash.com/photo-1568322445389-f64ac2515020?w=800' },
+  { country: 'Australia',    countryId: 'AU', hint: 'Home of kangaroos and the Opera House', image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800' },
+  { country: 'Italy',        countryId: 'IT', hint: 'Home of the Colosseum and pasta',   image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800' },
+  { country: 'United States of America', countryId: 'US', hint: 'Home of the Statue of Liberty', image: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800' },
+  { country: 'India',        countryId: 'IN', hint: 'Home of the Taj Mahal',             image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800' },
+  { country: 'Greece',       countryId: 'GR', hint: 'Birthplace of democracy and the Olympics', image: 'https://images.unsplash.com/photo-1555993539-1732b0258235?w=800' },
+  { country: 'China',        countryId: 'CN', hint: 'Home of the Great Wall',            image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800' },
+  { country: 'Canada',       countryId: 'CA', hint: 'Known for maple syrup and Niagara Falls', image: 'https://images.unsplash.com/photo-1517935706615-2717063c2225?w=800' },
+  { country: 'Mexico',       countryId: 'MX', hint: 'Home of Chichen Itza and tacos',    image: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800' },
+  { country: 'South Africa', countryId: 'ZA', hint: 'Home of Table Mountain',            image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800' },
+  { country: 'Russia',       countryId: 'RU', hint: 'Home of the Kremlin and Red Square',image: 'https://images.unsplash.com/photo-1513326738677-b964603b136d?w=800' },
+  { country: 'Germany',      countryId: 'DE', hint: 'Home of Oktoberfest and castles',   image: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800' },
+  { country: 'Spain',        countryId: 'ES', hint: 'Home of Sagrada Familia and flamenco', image: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800' },
+  { country: 'Argentina',    countryId: 'AR', hint: 'Home of tango and Patagonia',       image: 'https://images.unsplash.com/photo-1612294037637-ec328d0e075e?w=800' },
+  { country: 'Turkey',       countryId: 'TR', hint: 'Home of the Blue Mosque and Hagia Sophia', image: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800' },
+  { country: 'Peru',         countryId: 'PE', hint: 'Home of Machu Picchu',              image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800' },
+  { country: 'Norway',       countryId: 'NO', hint: 'Land of the Northern Lights and fjords', image: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800' },
+];
+
+// =====================
+// GAME STATE
+// =====================
+let score = 0;
+let round = 1;
+let streak = 0;
+let currentLocation = null;
+let answered = false;
+let usedIndices = [];
+let selectedEl = null;
+
+// =====================
+// MAP LOADING
+// Uses Natural Earth data via a public GeoJSON
+// =====================
+async function loadMap() {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
+    const data = await res.json();
+    renderMap(data);
+    document.getElementById('loading').style.display = 'none';
+    startRound();
+  } catch(e) {
+    document.getElementById('loading').textContent = 'Map failed to load. Refresh to try again.';
+  }
+}
+
+function renderMap(geojson) {
+  const svg = document.getElementById('map');
+  const W = 2000, H = 1001;
+
+  // Simple equirectangular projection
+  function project([lon, lat]) {
+    const x = (lon + 180) * (W / 360);
+    const y = (90 - lat) * (H / 180);
+    return [x, y];
+  }
+
+  function polygonToPath(coords) {
+    return coords.map((ring, ri) =>
+      ring.map((pt, i) => {
+        const [x, y] = project(pt);
+        return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+      }).join(' ') + 'Z'
+    ).join(' ');
+  }
+
+  geojson.features.forEach(feature => {
+    const name = feature.properties.name;
+    let pathData = '';
+
+    if (feature.geometry.type === 'Polygon') {
+      pathData = polygonToPath(feature.geometry.coordinates);
+    } else if (feature.geometry.type === 'MultiPolygon') {
+      pathData = feature.geometry.coordinates.map(poly => polygonToPath(poly)).join(' ');
+    }
+
+    if (!pathData) return;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathData);
+    path.setAttribute('class', 'country');
+    path.setAttribute('data-name', name);
+    path.setAttribute('title', name);
+
+    path.addEventListener('click', () => handleCountryClick(path, name));
+    svg.appendChild(path);
+  });
+}
+
+// =====================
+// GAME LOGIC
+// =====================
+function startRound() {
+  answered = false;
+  selectedEl = null;
+
+  // Reset map colors
+  document.querySelectorAll('.country').forEach(el => {
+    el.classList.remove('selected', 'correct-answer', 'wrong-answer');
+  });
+
+  // Hide result overlay
+  const overlay = document.getElementById('result-overlay');
+  overlay.classList.remove('show');
+
+  // Pick a location we haven't used yet
+  if (usedIndices.length === locations.length) usedIndices = [];
+  let idx;
+  do { idx = Math.floor(Math.random() * locations.length); }
+  while (usedIndices.includes(idx));
+  usedIndices.push(idx);
+  currentLocation = locations[idx];
+
+  // Update UI
+  const img = document.getElementById('location-img');
+  img.style.opacity = 0;
+  img.src = currentLocation.image;
+  img.onload = () => { img.style.opacity = 1; };
+
+  document.getElementById('round-num').textContent = round;
+  document.getElementById('round-display').textContent = round;
+  document.getElementById('hint-text').style.display = 'none';
+  document.getElementById('hint-text').textContent = '💡 ' + currentLocation.hint;
+}
+
+function handleCountryClick(el, name) {
+  if (answered) return;
+  answered = true;
+
+  if (selectedEl) selectedEl.classList.remove('selected');
+  selectedEl = el;
+
+  const correct = name === currentLocation.country;
+  const overlay = document.getElementById('result-overlay');
+  const title = document.getElementById('result-title');
+  const desc = document.getElementById('result-desc');
+  const icon = document.getElementById('result-icon');
+
+  if (correct) {
+    score++;
+    streak++;
+    el.classList.add('correct-answer');
+    icon.textContent = '🎉';
+    title.textContent = 'CORRECT!';
+    title.className = 'correct';
+    desc.textContent = `That's ${currentLocation.country}! +1 point${streak > 1 ? ' · 🔥 ' + streak + ' streak!' : ''}`;
+  } else {
+    streak = 0;
+    el.classList.add('wrong-answer');
+    // Highlight the correct country
+    document.querySelectorAll('.country').forEach(c => {
+      if (c.getAttribute('data-name') === currentLocation.country) {
+        c.classList.add('correct-answer');
+      }
+    });
+    icon.textContent = '❌';
+    title.textContent = 'WRONG!';
+    title.className = 'wrong';
+    desc.textContent = `It was ${currentLocation.country}. You clicked ${name}.`;
+  }
+
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('streak-display').textContent = streak;
+  overlay.classList.add('show');
+  round++;
+}
+
+function nextRound() {
+  startRound();
+}
+
+function showHint() {
+  const h = document.getElementById('hint-text');
+  h.style.display = h.style.display === 'block' ? 'none' : 'block';
+}
+
+function submitScore() {
+  const name = document.getElementById('player-name-input').value.trim();
+  if (!name) return;
+  // Store in localStorage for the Discord bot to optionally read via a backend
+  // For now, shows a confirmation
+  document.getElementById('submit-status').style.display = 'inline';
+  setTimeout(() => {
+    document.getElementById('submit-status').style.display = 'none';
+  }, 3000);
+}
+
+// =====================
+// INIT
+// =====================
+loadMap();
+</script>
+</body>
+</html>
