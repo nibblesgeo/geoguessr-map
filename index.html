@@ -21,71 +21,29 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
- 
 #game { display: grid; grid-template-columns: var(--panel-w) 1fr; height: 100vh; }
- 
-#panel {
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  overflow-y: auto; z-index: 10;
-}
- 
-#panel-header {
-  padding: 1rem 1.2rem 0.8rem;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
-}
-#panel-header h1 {
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; letter-spacing: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
+#panel { background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; z-index: 10; }
+#panel-header { padding: 1rem 1.2rem 0.8rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+#panel-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; letter-spacing: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 #stats { display: flex; gap: 1rem; }
 .stat { text-align: center; }
 .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--accent); line-height: 1; }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
- 
 #photo-wrap { position: relative; flex-shrink: 0; background: #000; min-height: 220px; }
 #street-photo { width: 100%; height: 220px; object-fit: cover; display: block; transition: opacity 0.5s; }
-#photo-loading {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  background: #0a0e1a; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
-  color: var(--muted); font-size: 1rem; flex-direction: column; gap: 0.5rem; z-index: 2;
-}
+#photo-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #0a0e1a; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; color: var(--muted); font-size: 1rem; flex-direction: column; gap: 0.5rem; z-index: 2; }
 .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 #photo-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, var(--surface)); pointer-events: none; z-index: 1; }
-#round-tag {
-  position: absolute; top: 0.7rem; left: 0.7rem; z-index: 3;
-  background: rgba(0,0,0,0.75); border: 1px solid var(--accent);
-  color: var(--accent); font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.8rem; letter-spacing: 2px; padding: 0.2rem 0.6rem; border-radius: 3px;
-}
-#photo-credit { position: absolute; bottom: 0.4rem; right: 0.6rem; font-size: 0.6rem; color: rgba(255,255,255,0.4); z-index: 3; }
- 
-#instructions {
-  padding: 0.8rem 1.2rem; font-size: 0.8rem; color: var(--muted);
-  line-height: 1.5; border-bottom: 1px solid var(--border); flex-shrink: 0;
-}
+#round-tag { position: absolute; top: 0.7rem; left: 0.7rem; z-index: 3; background: rgba(0,0,0,0.75); border: 1px solid var(--accent); color: var(--accent); font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 2px; padding: 0.2rem 0.6rem; border-radius: 3px; }
+#instructions { padding: 0.8rem 1.2rem; font-size: 0.8rem; color: var(--muted); line-height: 1.5; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 #instructions span { color: var(--accent); font-weight: 700; }
- 
 #guess-btn-wrap { padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-#guess-btn {
-  width: 100%; background: linear-gradient(135deg, var(--accent), #c89010);
-  color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
-  letter-spacing: 3px; border: none; padding: 0.7rem; border-radius: 6px;
-  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s; opacity: 0.35;
-}
+#guess-btn { width: 100%; background: linear-gradient(135deg, var(--accent), #c89010); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 3px; border: none; padding: 0.7rem; border-radius: 6px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s; opacity: 0.35; }
 #guess-btn.active { opacity: 1; }
 #guess-btn.active:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,192,64,0.3); }
 #pin-status { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 0.4rem; letter-spacing: 1px; }
- 
-#result-card {
-  display: none; flex-direction: column; gap: 0.7rem;
-  padding: 1rem 1.2rem; flex-shrink: 0;
-  animation: slideUp 0.35s ease;
-}
+#result-card { display: none; flex-direction: column; gap: 0.7rem; padding: 1rem 1.2rem; flex-shrink: 0; animation: slideUp 0.35s ease; }
 @keyframes slideUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 #result-verdict { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 3px; }
 #result-distance { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
@@ -95,29 +53,14 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 #score-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent2), var(--accent)); width: 0%; transition: width 1s cubic-bezier(.4,0,.2,1); }
 #points-earned { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--accent); line-height: 1; text-align: center; margin: 0.2rem 0; }
 #points-earned span { font-size: 0.9rem; color: var(--muted); }
-#next-btn {
-  width: 100%; background: var(--surface); border: 1px solid var(--accent);
-  color: var(--accent); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
-  letter-spacing: 2px; padding: 0.6rem; border-radius: 6px; cursor: pointer; transition: background 0.2s;
-}
+#next-btn { width: 100%; background: var(--surface); border: 1px solid var(--accent); color: var(--accent); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; padding: 0.6rem; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
 #next-btn:hover { background: rgba(240,192,64,0.08); }
- 
-#total-wrap {
-  margin-top: auto; padding: 0.7rem 1.2rem;
-  border-top: 1px solid var(--border); display: flex;
-  justify-content: space-between; align-items: center; flex-shrink: 0;
-}
+#total-wrap { margin-top: auto; padding: 0.7rem 1.2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
 #total-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 #total-score { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--correct); }
- 
 #map-container { position: relative; }
 #map { width: 100%; height: 100%; }
- 
-#end-screen {
-  display: none; position: fixed; inset: 0;
-  background: rgba(8,12,18,0.97); z-index: 999;
-  align-items: center; justify-content: center; flex-direction: column; gap: 1rem;
-}
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(8,12,18,0.97); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; }
 #end-screen.show { display: flex; }
 #end-screen h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; letter-spacing: 5px; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 #final-score { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: var(--accent); line-height: 1; }
@@ -126,22 +69,13 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 #end-discord { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; width: 100%; max-width: 320px; }
 #end-discord label { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 #end-discord-row { display: flex; gap: 0.5rem; width: 100%; }
-#end-discord-username {
-  flex: 1; background: var(--surface); border: 1px solid var(--border);
-  color: var(--text); padding: 0.5rem 0.7rem; border-radius: 6px;
-  font-family: 'Syne', sans-serif; font-size: 0.85rem; outline: none;
-}
+#end-discord-username { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 0.7rem; border-radius: 6px; font-family: 'Syne', sans-serif; font-size: 0.85rem; outline: none; }
 #end-discord-username:focus { border-color: var(--accent); }
 #end-discord-username::placeholder { color: var(--muted); }
 #end-save-btn { background: #5865F2; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
 #end-save-status { font-size: 0.75rem; color: var(--correct); display: none; }
-#play-again-btn {
-  background: linear-gradient(135deg, var(--accent), #c89010); color: #000;
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 3px;
-  border: none; padding: 0.75rem 2.5rem; border-radius: 6px; cursor: pointer; transition: transform 0.15s;
-}
+#play-again-btn { background: linear-gradient(135deg, var(--accent), #c89010); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 3px; border: none; padding: 0.75rem 2.5rem; border-radius: 6px; cursor: pointer; transition: transform 0.15s; }
 #play-again-btn:hover { transform: scale(1.04); }
- 
 @media (max-width: 700px) {
   :root { --panel-w: 100%; }
   #game { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -160,24 +94,19 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
         <div class="stat"><div class="stat-val" id="streak-disp">0</div><div class="stat-lbl">Streak</div></div>
       </div>
     </div>
- 
     <div id="photo-wrap">
       <div id="photo-loading"><div class="spinner"></div>Loading photo...</div>
       <img id="street-photo" src="" alt="Guess this location" style="opacity:0"/>
       <div id="photo-overlay"></div>
       <div id="round-tag">ROUND <span id="round-num">1</span></div>
-      <div id="photo-credit">📷 Unsplash</div>
     </div>
- 
     <div id="instructions">
       <span>Drop a pin</span> anywhere on the map to make your guess. Closer = more points — up to <span>5,000</span> per round!
     </div>
- 
     <div id="guess-btn-wrap">
       <button id="guess-btn" onclick="submitGuess()" disabled>PLACE YOUR GUESS</button>
       <div id="pin-status">Click the map to place your pin</div>
     </div>
- 
     <div id="result-card">
       <div id="result-verdict"></div>
       <div id="result-distance"></div>
@@ -188,16 +117,12 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
       <div id="points-earned">0 <span>points</span></div>
       <button id="next-btn" onclick="nextRound()">NEXT ROUND →</button>
     </div>
- 
     <div id="total-wrap">
       <div id="total-label">Total Score</div>
       <div id="total-score">0</div>
     </div>
   </div>
- 
-  <div id="map-container">
-    <div id="map"></div>
-  </div>
+  <div id="map-container"><div id="map"></div></div>
 </div>
  
 <div id="end-screen">
@@ -216,124 +141,68 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 </div>
  
 <script>
-// =====================
-// LOCATIONS — 100 cities across every continent
-// Each has a "search" keyword used to fetch a random
-// Unsplash photo, giving unlimited variety
-// =====================
+// Each location has multiple photos so there's variety every round
 const locations = [
-  // Europe
-  { name:'Paris, France',              lat:48.8584,   lng:2.2945,    search:'paris france street' },
-  { name:'Rome, Italy',                lat:41.8902,   lng:12.4922,   search:'rome italy colosseum' },
-  { name:'Barcelona, Spain',           lat:41.3851,   lng:2.1734,    search:'barcelona spain' },
-  { name:'Berlin, Germany',            lat:52.5200,   lng:13.4050,   search:'berlin germany street' },
-  { name:'Amsterdam, Netherlands',     lat:52.3676,   lng:4.9041,    search:'amsterdam canal street' },
-  { name:'Prague, Czech Republic',     lat:50.0755,   lng:14.4378,   search:'prague czech republic' },
-  { name:'Vienna, Austria',            lat:48.2082,   lng:16.3738,   search:'vienna austria' },
-  { name:'Athens, Greece',             lat:37.9838,   lng:23.7275,   search:'athens greece acropolis' },
-  { name:'Lisbon, Portugal',           lat:38.7223,   lng:-9.1393,   search:'lisbon portugal street' },
-  { name:'Brussels, Belgium',          lat:50.8503,   lng:4.3517,    search:'brussels belgium' },
-  { name:'Budapest, Hungary',          lat:47.4979,   lng:19.0402,   search:'budapest hungary' },
-  { name:'Warsaw, Poland',             lat:52.2297,   lng:21.0122,   search:'warsaw poland' },
-  { name:'Oslo, Norway',               lat:59.9139,   lng:10.7522,   search:'oslo norway fjord' },
-  { name:'Stockholm, Sweden',          lat:59.3293,   lng:18.0686,   search:'stockholm sweden' },
-  { name:'Helsinki, Finland',          lat:60.1699,   lng:24.9384,   search:'helsinki finland' },
-  { name:'Copenhagen, Denmark',        lat:55.6761,   lng:12.5683,   search:'copenhagen denmark' },
-  { name:'Dublin, Ireland',            lat:53.3498,   lng:-6.2603,   search:'dublin ireland' },
-  { name:'Edinburgh, Scotland',        lat:55.9533,   lng:-3.1883,   search:'edinburgh scotland castle' },
-  { name:'Zurich, Switzerland',        lat:47.3769,   lng:8.5417,    search:'zurich switzerland' },
-  { name:'Reykjavik, Iceland',         lat:64.1355,   lng:-21.8954,  search:'reykjavik iceland' },
-  { name:'Dubrovnik, Croatia',         lat:42.6507,   lng:18.0944,   search:'dubrovnik croatia' },
-  { name:'Santorini, Greece',          lat:36.3932,   lng:25.4615,   search:'santorini greece' },
-  { name:'Porto, Portugal',            lat:41.1579,   lng:-8.6291,   search:'porto portugal' },
-  { name:'Florence, Italy',            lat:43.7696,   lng:11.2558,   search:'florence italy' },
-  { name:'Venice, Italy',              lat:45.4408,   lng:12.3155,   search:'venice italy canal' },
- 
-  // Asia
-  { name:'Tokyo, Japan',               lat:35.6762,   lng:139.6503,  search:'tokyo japan street' },
-  { name:'Kyoto, Japan',               lat:35.0116,   lng:135.7681,  search:'kyoto japan temple' },
-  { name:'Seoul, South Korea',         lat:37.5665,   lng:126.9780,  search:'seoul south korea' },
-  { name:'Beijing, China',             lat:39.9042,   lng:116.4074,  search:'beijing china great wall' },
-  { name:'Shanghai, China',            lat:31.2304,   lng:121.4737,  search:'shanghai china skyline' },
-  { name:'Hong Kong',                  lat:22.3193,   lng:114.1694,  search:'hong kong skyline street' },
-  { name:'Singapore',                  lat:1.3521,    lng:103.8198,  search:'singapore city' },
-  { name:'Bangkok, Thailand',          lat:13.7563,   lng:100.5018,  search:'bangkok thailand temple' },
-  { name:'Bali, Indonesia',            lat:-8.3405,   lng:115.0920,  search:'bali indonesia temple' },
-  { name:'Hanoi, Vietnam',             lat:21.0285,   lng:105.8542,  search:'hanoi vietnam street' },
-  { name:'Ho Chi Minh City, Vietnam',  lat:10.8231,   lng:106.6297,  search:'ho chi minh city vietnam' },
-  { name:'Kuala Lumpur, Malaysia',     lat:3.1390,    lng:101.6869,  search:'kuala lumpur malaysia' },
-  { name:'Manila, Philippines',        lat:14.5995,   lng:120.9842,  search:'manila philippines' },
-  { name:'Mumbai, India',              lat:19.0760,   lng:72.8777,   search:'mumbai india street' },
-  { name:'Delhi, India',               lat:28.7041,   lng:77.1025,   search:'delhi india street' },
-  { name:'Agra, India',                lat:27.1751,   lng:78.0421,   search:'agra india taj mahal' },
-  { name:'Kathmandu, Nepal',           lat:27.7172,   lng:85.3240,   search:'kathmandu nepal' },
-  { name:'Colombo, Sri Lanka',         lat:6.9271,    lng:79.8612,   search:'colombo sri lanka' },
-  { name:'Dubai, UAE',                 lat:25.2048,   lng:55.2708,   search:'dubai uae skyline' },
-  { name:'Istanbul, Turkey',           lat:41.0082,   lng:28.9784,   search:'istanbul turkey mosque' },
-  { name:'Petra, Jordan',              lat:30.3285,   lng:35.4444,   search:'petra jordan' },
-  { name:'Jerusalem, Israel',          lat:31.7683,   lng:35.2137,   search:'jerusalem israel old city' },
-  { name:'Tbilisi, Georgia',           lat:41.6938,   lng:44.8015,   search:'tbilisi georgia' },
- 
-  // Americas
-  { name:'New York, USA',              lat:40.7484,   lng:-73.9967,  search:'new york city street' },
-  { name:'Los Angeles, USA',           lat:34.0522,   lng:-118.2437, search:'los angeles california' },
-  { name:'Chicago, USA',               lat:41.8781,   lng:-87.6298,  search:'chicago illinois skyline' },
-  { name:'San Francisco, USA',         lat:37.7749,   lng:-122.4194, search:'san francisco golden gate' },
-  { name:'Miami, USA',                 lat:25.7617,   lng:-80.1918,  search:'miami florida beach' },
-  { name:'New Orleans, USA',           lat:29.9511,   lng:-90.0715,  search:'new orleans louisiana street' },
-  { name:'Las Vegas, USA',             lat:36.1699,   lng:-115.1398, search:'las vegas nevada strip' },
-  { name:'Toronto, Canada',            lat:43.6532,   lng:-79.3832,  search:'toronto canada cn tower' },
-  { name:'Vancouver, Canada',          lat:49.2827,   lng:-123.1207, search:'vancouver canada mountains' },
-  { name:'Montreal, Canada',           lat:45.5017,   lng:-73.5673,  search:'montreal canada street' },
-  { name:'Mexico City, Mexico',        lat:19.4326,   lng:-99.1332,  search:'mexico city street' },
-  { name:'Havana, Cuba',               lat:23.1136,   lng:-82.3666,  search:'havana cuba street' },
-  { name:'Rio de Janeiro, Brazil',     lat:-22.9068,  lng:-43.1729,  search:'rio de janeiro brazil' },
-  { name:'São Paulo, Brazil',          lat:-23.5505,  lng:-46.6333,  search:'sao paulo brazil street' },
-  { name:'Buenos Aires, Argentina',    lat:-34.6037,  lng:-58.3816,  search:'buenos aires argentina' },
-  { name:'Lima, Peru',                 lat:-12.0464,  lng:-77.0428,  search:'lima peru street' },
-  { name:'Machu Picchu, Peru',         lat:-13.1631,  lng:-72.5450,  search:'machu picchu peru' },
-  { name:'Bogota, Colombia',           lat:4.7110,    lng:-74.0721,  search:'bogota colombia' },
-  { name:'Cartagena, Colombia',        lat:10.3910,   lng:-75.4794,  search:'cartagena colombia' },
-  { name:'Santiago, Chile',            lat:-33.4489,  lng:-70.6693,  search:'santiago chile' },
-  { name:'Quito, Ecuador',             lat:-0.1807,   lng:-78.4678,  search:'quito ecuador' },
-  { name:'La Paz, Bolivia',            lat:-16.5000,  lng:-68.1500,  search:'la paz bolivia' },
- 
-  // Africa
-  { name:'Cairo, Egypt',               lat:29.9773,   lng:31.1325,   search:'cairo egypt pyramids' },
-  { name:'Cape Town, South Africa',    lat:-33.9249,  lng:18.4241,   search:'cape town south africa' },
-  { name:'Johannesburg, South Africa', lat:-26.2041,  lng:28.0473,   search:'johannesburg south africa' },
-  { name:'Nairobi, Kenya',             lat:-1.2921,   lng:36.8219,   search:'nairobi kenya street' },
-  { name:'Lagos, Nigeria',             lat:6.5244,    lng:3.3792,    search:'lagos nigeria street' },
-  { name:'Accra, Ghana',               lat:5.6037,    lng:-0.1870,   search:'accra ghana street' },
-  { name:'Marrakech, Morocco',         lat:31.6295,   lng:-7.9811,   search:'marrakech morocco medina' },
-  { name:'Casablanca, Morocco',        lat:33.5731,   lng:-7.5898,   search:'casablanca morocco' },
-  { name:'Tunis, Tunisia',             lat:36.8065,   lng:10.1815,   search:'tunis tunisia medina' },
-  { name:'Addis Ababa, Ethiopia',      lat:9.0320,    lng:38.7469,   search:'addis ababa ethiopia' },
-  { name:'Zanzibar, Tanzania',         lat:-6.1659,   lng:39.2026,   search:'zanzibar tanzania beach' },
-  { name:'Luanda, Angola',             lat:-8.8390,   lng:13.2894,   search:'luanda angola' },
- 
-  // Oceania
-  { name:'Sydney, Australia',          lat:-33.8568,  lng:151.2153,  search:'sydney australia opera house' },
-  { name:'Melbourne, Australia',       lat:-37.8136,  lng:144.9631,  search:'melbourne australia street' },
-  { name:'Brisbane, Australia',        lat:-27.4698,  lng:153.0251,  search:'brisbane australia' },
-  { name:'Auckland, New Zealand',      lat:-36.8485,  lng:174.7633,  search:'auckland new zealand' },
-  { name:'Queenstown, New Zealand',    lat:-45.0312,  lng:168.6626,  search:'queenstown new zealand mountains' },
-  { name:'Fiji Islands',               lat:-17.7134,  lng:178.0650,  search:'fiji islands beach' },
- 
-  // Middle East / Central Asia
-  { name:'Riyadh, Saudi Arabia',       lat:24.7136,   lng:46.6753,   search:'riyadh saudi arabia' },
-  { name:'Tehran, Iran',               lat:35.6892,   lng:51.3890,   search:'tehran iran street' },
-  { name:'Almaty, Kazakhstan',         lat:43.2220,   lng:76.8512,   search:'almaty kazakhstan' },
-  { name:'Tashkent, Uzbekistan',       lat:41.2995,   lng:69.2401,   search:'tashkent uzbekistan' },
-  { name:'Samarkand, Uzbekistan',      lat:39.6270,   lng:66.9750,   search:'samarkand uzbekistan' },
-  { name:'Kabul, Afghanistan',         lat:34.5553,   lng:69.2075,   search:'kabul afghanistan' },
- 
-  // Russia / Eastern Europe
-  { name:'Moscow, Russia',             lat:55.7558,   lng:37.6173,   search:'moscow russia red square' },
-  { name:'Saint Petersburg, Russia',   lat:59.9311,   lng:30.3609,   search:'saint petersburg russia' },
-  { name:'Kyiv, Ukraine',              lat:50.4501,   lng:30.5234,   search:'kyiv ukraine street' },
-  { name:'Bucharest, Romania',         lat:44.4268,   lng:26.1025,   search:'bucharest romania' },
-  { name:'Sofia, Bulgaria',            lat:42.6977,   lng:23.3219,   search:'sofia bulgaria' },
+  { name:'Paris, France',              lat:48.8584,   lng:2.2945,
+    photos:['https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800','https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800','https://images.unsplash.com/photo-1522093007474-d86e9bf7ba6f?w=800','https://images.unsplash.com/photo-1431274172761-fcdab704a114?w=800','https://images.unsplash.com/photo-1541171527075-9f4a4e351d48?w=800']},
+  { name:'Tokyo, Japan',               lat:35.6762,   lng:139.6503,
+    photos:['https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800','https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800','https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=800','https://images.unsplash.com/photo-1551641506-ee5bf4cb45f1?w=800','https://images.unsplash.com/photo-1490761668535-35497054946e?w=800']},
+  { name:'New York, USA',              lat:40.7484,   lng:-73.9967,
+    photos:['https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800','https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800','https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800','https://images.unsplash.com/photo-1522083165195-3424ed129620?w=800','https://images.unsplash.com/photo-1555109307-f7d9da25c244?w=800']},
+  { name:'London, UK',                 lat:51.5074,   lng:-0.1278,
+    photos:['https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800','https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=800','https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=800','https://images.unsplash.com/photo-1543832923-44667a44c804?w=800','https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=800']},
+  { name:'Rome, Italy',                lat:41.8902,   lng:12.4922,
+    photos:['https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800','https://images.unsplash.com/photo-1529260830199-42c24126f198?w=800','https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=800','https://images.unsplash.com/photo-1525874684015-58379d421a52?w=800','https://images.unsplash.com/photo-1534445967719-8ae7b972b1a5?w=800']},
+  { name:'Sydney, Australia',          lat:-33.8568,  lng:151.2153,
+    photos:['https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800','https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800','https://images.unsplash.com/photo-1531492009570-c0d29ef15d67?w=800','https://images.unsplash.com/photo-1546268060-2592ff93ee24?w=800']},
+  { name:'Cairo, Egypt',               lat:29.9773,   lng:31.1325,
+    photos:['https://images.unsplash.com/photo-1568322445389-f64ac2515020?w=800','https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=800','https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=800','https://images.unsplash.com/photo-1539768942893-daf53e448371?w=800','https://images.unsplash.com/photo-1544948503-7ad532012f8e?w=800']},
+  { name:'Barcelona, Spain',           lat:41.3851,   lng:2.1734,
+    photos:['https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800','https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=800','https://images.unsplash.com/photo-1504019347908-b45f9b0b8dd5?w=800','https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?w=800','https://images.unsplash.com/photo-1464790719320-516ecd75af6c?w=800']},
+  { name:'Istanbul, Turkey',           lat:41.0082,   lng:28.9784,
+    photos:['https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800','https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800','https://images.unsplash.com/photo-1527838832700-5059252407fa?w=800','https://images.unsplash.com/photo-1570939274717-7eda259b50ed?w=800','https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800']},
+  { name:'Rio de Janeiro, Brazil',     lat:-22.9068,  lng:-43.1729,
+    photos:['https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800','https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=800','https://images.unsplash.com/photo-1518639192441-8fce0a366e2e?w=800','https://images.unsplash.com/photo-1544989164-31a5bb223e5b?w=800','https://images.unsplash.com/photo-1516306580123-e6e52b1b7b5f?w=800']},
+  { name:'Dubai, UAE',                 lat:25.2048,   lng:55.2708,
+    photos:['https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800','https://images.unsplash.com/photo-1518684079-3c830dcef090?w=800','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800','https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?w=800','https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800']},
+  { name:'Singapore',                  lat:1.3521,    lng:103.8198,
+    photos:['https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800','https://images.unsplash.com/photo-1508964942454-1a56651d54ac?w=800','https://images.unsplash.com/photo-1565967511849-76a60a516170?w=800','https://images.unsplash.com/photo-1570625368437-f4246c507b40?w=800','https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?w=800']},
+  { name:'Agra, India',                lat:27.1751,   lng:78.0421,
+    photos:['https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800','https://images.unsplash.com/photo-1548013146-72479768bada?w=800','https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?w=800','https://images.unsplash.com/photo-1532664189809-02133fee698d?w=800','https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800']},
+  { name:'Athens, Greece',             lat:37.9838,   lng:23.7275,
+    photos:['https://images.unsplash.com/photo-1555993539-1732b0258235?w=800','https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?w=800','https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800','https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?w=800','https://images.unsplash.com/photo-1558697698-9300a84a8bef?w=800']},
+  { name:'Cape Town, South Africa',    lat:-33.9249,  lng:18.4241,
+    photos:['https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800','https://images.unsplash.com/photo-1576485375217-d6a95e34d043?w=800','https://images.unsplash.com/photo-1563656353898-e2b0959f6b43?w=800','https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800','https://images.unsplash.com/photo-1534481016943-e843c98b4d12?w=800']},
+  { name:'Machu Picchu, Peru',         lat:-13.1631,  lng:-72.5450,
+    photos:['https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800','https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800','https://images.unsplash.com/photo-1580247817119-fc3b9e1e70b6?w=800','https://images.unsplash.com/photo-1599059812779-7175e4f5f9d6?w=800','https://images.unsplash.com/photo-1478827387698-1527781a4887?w=800']},
+  { name:'Oslo, Norway',               lat:59.9139,   lng:10.7522,
+    photos:['https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800','https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800','https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=800','https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?w=800','https://images.unsplash.com/photo-1562976717-6398686b8a55?w=800']},
+  { name:'Moscow, Russia',             lat:55.7558,   lng:37.6173,
+    photos:['https://images.unsplash.com/photo-1513326738677-b964603b136d?w=800','https://images.unsplash.com/photo-1548637046-3f8e1f1ffd16?w=800','https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=800','https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?w=800','https://images.unsplash.com/photo-1555951015-6da899b5c2cd?w=800']},
+  { name:'Berlin, Germany',            lat:52.5200,   lng:13.4050,
+    photos:['https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800','https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?w=800','https://images.unsplash.com/photo-1587330979470-3595ac045ab0?w=800','https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800','https://images.unsplash.com/photo-1534430882403-e92097a7c9c5?w=800']},
+  { name:'Buenos Aires, Argentina',    lat:-34.6037,  lng:-58.3816,
+    photos:['https://images.unsplash.com/photo-1612294037637-ec328d0e075e?w=800','https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=800','https://images.unsplash.com/photo-1567768711481-5b6e02a45d61?w=800','https://images.unsplash.com/photo-1583418855680-e9a5a2b5ad6c?w=800','https://images.unsplash.com/photo-1553525553-f2b43a37f4c2?w=800']},
+  { name:'Bangkok, Thailand',          lat:13.7563,   lng:100.5018,
+    photos:['https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=800','https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800','https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800','https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800','https://images.unsplash.com/photo-1598935898639-81586f7d2129?w=800']},
+  { name:'Seoul, South Korea',         lat:37.5665,   lng:126.9780,
+    photos:['https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800','https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=800','https://images.unsplash.com/photo-1548115184-bc6544d06a58?w=800','https://images.unsplash.com/photo-1540563720433-96e7e0789e55?w=800','https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=800']},
+  { name:'Amsterdam, Netherlands',     lat:52.3676,   lng:4.9041,
+    photos:['https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=800','https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800','https://images.unsplash.com/photo-1576924542622-772281b13240?w=800','https://images.unsplash.com/photo-1558552400-fd5e6c390acb?w=800','https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800']},
+  { name:'Prague, Czech Republic',     lat:50.0755,   lng:14.4378,
+    photos:['https://images.unsplash.com/photo-1541849546-216549ae216d?w=800','https://images.unsplash.com/photo-1559310589-2673bfe16970?w=800','https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?w=800','https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=800','https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=800']},
+  { name:'Santorini, Greece',          lat:36.3932,   lng:25.4615,
+    photos:['https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800','https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800','https://images.unsplash.com/photo-1504512485720-7d83a16ee930?w=800','https://images.unsplash.com/photo-1555400082-595a764d3f42?w=800','https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=800']},
+  { name:'Venice, Italy',              lat:45.4408,   lng:12.3155,
+    photos:['https://images.unsplash.com/photo-1534113414509-0eec2bfb493f?w=800','https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800','https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800','https://images.unsplash.com/photo-1541732351486-a0b433ca4b31?w=800','https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800']},
+  { name:'Toronto, Canada',            lat:43.6532,   lng:-79.3832,
+    photos:['https://images.unsplash.com/photo-1517935706615-2717063c2225?w=800','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800','https://images.unsplash.com/photo-1507992781348-310259076fe0?w=800','https://images.unsplash.com/photo-1569447891824-5fc1f79be735?w=800','https://images.unsplash.com/photo-1545159652-89ef2900312e?w=800']},
+  { name:'Marrakech, Morocco',         lat:31.6295,   lng:-7.9811,
+    photos:['https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=800','https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=800','https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=800','https://images.unsplash.com/photo-1548697734-be22d55e8b0e?w=800','https://images.unsplash.com/photo-1562979314-bee7453e911c?w=800']},
+  { name:'Kyoto, Japan',               lat:35.0116,   lng:135.7681,
+    photos:['https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800','https://images.unsplash.com/photo-1553621042-f6e147245754?w=800','https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800','https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800']},
+  { name:'San Francisco, USA',         lat:37.7749,   lng:-122.4194,
+    photos:['https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800','https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800','https://images.unsplash.com/photo-1534430882403-e92097a7c9c5?w=800','https://images.unsplash.com/photo-1537944434965-cf4679d1a598?w=800','https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=800']},
 ];
  
 const ROUNDS = 5;
@@ -343,21 +212,6 @@ let usedIndices = [];
 let round = 1, totalScore = 0, streak = 0;
 let pinPlaced = false;
  
-// =====================
-// UNSPLASH — random photo by search term
-// Uses the source URL which gives unlimited random photos
-// per search keyword, no API key needed
-// =====================
-function getPhotoUrl(searchTerm) {
-  // Unsplash source gives a random photo matching the search term
-  // Adding a cache-buster so each round gets a different photo
-  const cb = Math.floor(Math.random() * 1000000);
-  return `https://source.unsplash.com/800x500/?${encodeURIComponent(searchTerm)}&cb=${cb}`;
-}
- 
-// =====================
-// MAP
-// =====================
 function initMap() {
   map = L.map('map', { center:[20,0], zoom:2, minZoom:2, maxZoom:18 });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -385,9 +239,6 @@ function onMapClick(e) {
   document.getElementById('pin-status').style.color = 'var(--accent)';
 }
  
-// =====================
-// SCORING
-// =====================
 function haversineKm(la1,lo1,la2,lo2) {
   const R=6371, dLa=(la2-la1)*Math.PI/180, dLo=(lo2-lo1)*Math.PI/180;
   const a=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;
@@ -398,9 +249,6 @@ function calcScore(km) {
   return Math.round(5000 * Math.pow(Math.E, -km / 2000));
 }
  
-// =====================
-// ROUND FLOW
-// =====================
 function startRound() {
   pinPlaced = false;
   if (guessMarker)  { map.removeLayer(guessMarker);  guessMarker  = null; }
@@ -418,7 +266,6 @@ function startRound() {
   document.getElementById('next-btn').textContent = 'NEXT ROUND →';
   document.getElementById('score-bar-fill').style.width = '0%';
  
-  // Pick location
   if (usedIndices.length >= locations.length) usedIndices = [];
   let idx;
   do { idx = Math.floor(Math.random() * locations.length); } while (usedIndices.includes(idx));
@@ -428,21 +275,16 @@ function startRound() {
   document.getElementById('round-num').textContent = round;
   document.getElementById('round-disp').textContent = round;
  
-  // Load photo
   const loadingEl = document.getElementById('photo-loading');
   const photoEl   = document.getElementById('street-photo');
   loadingEl.style.display = 'flex';
   photoEl.style.opacity = '0';
  
-  const url = getPhotoUrl(currentLocation.search);
-  photoEl.onload = () => {
-    loadingEl.style.display = 'none';
-    photoEl.style.opacity = '1';
-  };
-  photoEl.onerror = () => {
-    loadingEl.innerHTML = '📷 Photo unavailable<br><small style="font-size:0.7rem;letter-spacing:1px">Make your best guess!</small>';
-  };
-  photoEl.src = url;
+  // Pick a random photo from this location's pool
+  const photoUrl = currentLocation.photos[Math.floor(Math.random() * currentLocation.photos.length)];
+  photoEl.onload = () => { loadingEl.style.display = 'none'; photoEl.style.opacity = '1'; };
+  photoEl.onerror = () => { loadingEl.innerHTML = '📷 Photo unavailable<br><small style="font-size:0.7rem">Make your best guess!</small>'; };
+  photoEl.src = photoUrl;
 }
  
 function submitGuess() {
@@ -458,10 +300,8 @@ function submitGuess() {
  
   answerMarker = L.marker([currentLocation.lat, currentLocation.lng], { icon: makePin('#30d080') })
     .addTo(map).bindPopup(`<b>${currentLocation.name}</b>`).openPopup();
-  distanceLine = L.polyline(
-    [[g.lat,g.lng],[currentLocation.lat,currentLocation.lng]],
-    { color:'#f0c040', weight:2, dashArray:'8 5', opacity:0.8 }
-  ).addTo(map);
+  distanceLine = L.polyline([[g.lat,g.lng],[currentLocation.lat,currentLocation.lng]],
+    { color:'#f0c040', weight:2, dashArray:'8 5', opacity:0.8 }).addTo(map);
   map.fitBounds(L.latLngBounds([g.lat,g.lng],[currentLocation.lat,currentLocation.lng]), { padding:[60,60] });
  
   const card = document.getElementById('result-card');
@@ -475,18 +315,12 @@ function submitGuess() {
  
   document.getElementById('result-verdict').textContent = label;
   document.getElementById('result-verdict').style.color = color;
- 
-  const distStr = km < 1
-    ? `${Math.round(km*1000).toLocaleString()} meters`
-    : `${Math.round(km).toLocaleString()} km`;
-  document.getElementById('result-distance').innerHTML =
-    `You were <strong>${distStr}</strong> away from <strong>${currentLocation.name}</strong>`;
- 
+  const distStr = km < 1 ? `${Math.round(km*1000).toLocaleString()} meters` : `${Math.round(km).toLocaleString()} km`;
+  document.getElementById('result-distance').innerHTML = `You were <strong>${distStr}</strong> away from <strong>${currentLocation.name}</strong>`;
   setTimeout(() => { document.getElementById('score-bar-fill').style.width = (pts/5000*100)+'%'; }, 100);
   document.getElementById('points-earned').innerHTML = `${pts.toLocaleString()} <span>points</span>`;
   document.getElementById('total-score').textContent = totalScore.toLocaleString();
   document.getElementById('streak-disp').textContent = streak;
- 
   if (round >= ROUNDS) document.getElementById('next-btn').textContent = 'SEE RESULTS →';
 }
  
@@ -496,13 +330,9 @@ function nextRound() {
   startRound();
 }
  
-// =====================
-// END SCREEN
-// =====================
 function showEndScreen() {
   document.getElementById('end-screen').classList.add('show');
-  document.getElementById('final-score').innerHTML =
-    `${totalScore.toLocaleString()} <span>out of ${(ROUNDS*5000).toLocaleString()}</span>`;
+  document.getElementById('final-score').innerHTML = `${totalScore.toLocaleString()} <span>out of ${(ROUNDS*5000).toLocaleString()}</span>`;
   const pct = totalScore/(ROUNDS*5000);
   let grade;
   if      (pct>=0.9) grade = '🌍 World-class explorer! You really know your geography.';
@@ -514,32 +344,19 @@ function showEndScreen() {
   if (saved) document.getElementById('end-discord-username').value = saved;
 }
  
-// =====================
-// DISCORD SCORE SAVING
-// =====================
-function getScores() {
-  try { return JSON.parse(localStorage.getItem('geo_scores') || '{}'); } catch { return {}; }
-}
-function saveScores(s) {
-  try { localStorage.setItem('geo_scores', JSON.stringify(s)); } catch {}
-}
+function getScores() { try { return JSON.parse(localStorage.getItem('geo_scores') || '{}'); } catch { return {}; } }
+function saveScores(s) { try { localStorage.setItem('geo_scores', JSON.stringify(s)); } catch {} }
 function saveScoreToDiscord() {
   const username = document.getElementById('end-discord-username').value.trim();
   if (!username) return;
   localStorage.setItem('geo_discord_username', username);
   const scores = getScores();
-  if (totalScore > (scores[username] || 0)) {
-    scores[username] = totalScore;
-    saveScores(scores);
-  }
+  if (totalScore > (scores[username] || 0)) { scores[username] = totalScore; saveScores(scores); }
   document.getElementById('end-save-status').style.display = 'block';
   document.getElementById('end-save-btn').textContent = '✅ Saved!';
   document.getElementById('end-save-btn').style.background = '#2d7a4a';
 }
  
-// =====================
-// SCOREBOARD PAGE
-// =====================
 function checkScoreboardMode() {
   if (new URLSearchParams(window.location.search).get('scoreboard') !== '1') return;
   document.getElementById('game').style.display = 'none';
@@ -548,27 +365,17 @@ function checkScoreboardMode() {
   const div = document.createElement('div');
   div.style.cssText = 'max-width:500px;margin:4rem auto;padding:2rem;font-family:Syne,sans-serif;';
   div.innerHTML = `
-    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:4px;background:linear-gradient(90deg,#f0c040,#e05a20);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1.5rem;">
-      🏆 SCOREBOARD
-    </h1>
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:4px;background:linear-gradient(90deg,#f0c040,#e05a20);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1.5rem;">🏆 SCOREBOARD</h1>
     ${entries.length === 0
       ? '<p style="color:#4a6a8a;">No scores yet. Play a game first!</p>'
       : entries.map(([user,score],i) => `
           <div style="display:flex;justify-content:space-between;align-items:center;padding:0.8rem 1rem;margin-bottom:0.5rem;background:#0f1620;border:1px solid #1c2a3a;border-radius:8px;">
-            <span style="color:${i===0?'#f0c040':i===1?'#aaa':i===2?'#cd7f32':'#ddeeff'};font-weight:700;">
-              ${i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`} ${user}
-            </span>
+            <span style="color:${i===0?'#f0c040':i===1?'#aaa':i===2?'#cd7f32':'#ddeeff'};font-weight:700;">${i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`} ${user}</span>
             <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#30d080;">${score.toLocaleString()}</span>
-          </div>
-        `).join('')
-    }
-  `;
+          </div>`).join('')}`;
   document.body.appendChild(div);
 }
  
-// =====================
-// RESET
-// =====================
 function resetGame() {
   round=1; totalScore=0; streak=0; usedIndices=[];
   document.getElementById('end-screen').classList.remove('show');
@@ -586,3 +393,4 @@ startRound();
 </script>
 </body>
 </html>
+ 
