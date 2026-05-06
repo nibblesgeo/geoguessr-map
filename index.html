@@ -21,16 +21,16 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
-
+ 
 #game { display: grid; grid-template-columns: var(--panel-w) 1fr; height: 100vh; }
-
+ 
 #panel {
   background: var(--surface);
   border-right: 1px solid var(--border);
   display: flex; flex-direction: column;
   overflow-y: auto; z-index: 10;
 }
-
+ 
 #panel-header {
   padding: 1rem 1.2rem 0.8rem;
   border-bottom: 1px solid var(--border);
@@ -45,7 +45,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 .stat { text-align: center; }
 .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--accent); line-height: 1; }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-
+ 
 #photo-wrap { position: relative; flex-shrink: 0; background: #000; min-height: 220px; }
 #street-photo { width: 100%; height: 220px; object-fit: cover; display: block; transition: opacity 0.5s; }
 #photo-loading {
@@ -63,13 +63,13 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   font-size: 0.8rem; letter-spacing: 2px; padding: 0.2rem 0.6rem; border-radius: 3px;
 }
 #photo-credit { position: absolute; bottom: 0.4rem; right: 0.6rem; font-size: 0.6rem; color: rgba(255,255,255,0.4); z-index: 3; }
-
+ 
 #instructions {
   padding: 0.8rem 1.2rem; font-size: 0.8rem; color: var(--muted);
   line-height: 1.5; border-bottom: 1px solid var(--border); flex-shrink: 0;
 }
 #instructions span { color: var(--accent); font-weight: 700; }
-
+ 
 #guess-btn-wrap { padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 #guess-btn {
   width: 100%; background: linear-gradient(135deg, var(--accent), #c89010);
@@ -80,7 +80,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 #guess-btn.active { opacity: 1; }
 #guess-btn.active:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,192,64,0.3); }
 #pin-status { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 0.4rem; letter-spacing: 1px; }
-
+ 
 #result-card {
   display: none; flex-direction: column; gap: 0.7rem;
   padding: 1rem 1.2rem; flex-shrink: 0;
@@ -101,7 +101,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   letter-spacing: 2px; padding: 0.6rem; border-radius: 6px; cursor: pointer; transition: background 0.2s;
 }
 #next-btn:hover { background: rgba(240,192,64,0.08); }
-
+ 
 #total-wrap {
   margin-top: auto; padding: 0.7rem 1.2rem;
   border-top: 1px solid var(--border); display: flex;
@@ -109,10 +109,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 }
 #total-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 #total-score { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--correct); }
-
+ 
 #map-container { position: relative; }
 #map { width: 100%; height: 100%; }
-
+ 
 #end-screen {
   display: none; position: fixed; inset: 0;
   background: rgba(8,12,18,0.97); z-index: 999;
@@ -141,7 +141,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   border: none; padding: 0.75rem 2.5rem; border-radius: 6px; cursor: pointer; transition: transform 0.15s;
 }
 #play-again-btn:hover { transform: scale(1.04); }
-
+ 
 @media (max-width: 700px) {
   :root { --panel-w: 100%; }
   #game { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -160,7 +160,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
         <div class="stat"><div class="stat-val" id="streak-disp">0</div><div class="stat-lbl">Streak</div></div>
       </div>
     </div>
-
+ 
     <div id="photo-wrap">
       <div id="photo-loading"><div class="spinner"></div>Loading photo...</div>
       <img id="street-photo" src="" alt="Guess this location" style="opacity:0"/>
@@ -168,16 +168,16 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
       <div id="round-tag">ROUND <span id="round-num">1</span></div>
       <div id="photo-credit">📷 Unsplash</div>
     </div>
-
+ 
     <div id="instructions">
       <span>Drop a pin</span> anywhere on the map to make your guess. Closer = more points — up to <span>5,000</span> per round!
     </div>
-
+ 
     <div id="guess-btn-wrap">
       <button id="guess-btn" onclick="submitGuess()" disabled>PLACE YOUR GUESS</button>
       <div id="pin-status">Click the map to place your pin</div>
     </div>
-
+ 
     <div id="result-card">
       <div id="result-verdict"></div>
       <div id="result-distance"></div>
@@ -188,18 +188,18 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
       <div id="points-earned">0 <span>points</span></div>
       <button id="next-btn" onclick="nextRound()">NEXT ROUND →</button>
     </div>
-
+ 
     <div id="total-wrap">
       <div id="total-label">Total Score</div>
       <div id="total-score">0</div>
     </div>
   </div>
-
+ 
   <div id="map-container">
     <div id="map"></div>
   </div>
 </div>
-
+ 
 <div id="end-screen">
   <h2>Game Over</h2>
   <div id="final-score">0 <span>out of 25,000</span></div>
@@ -214,7 +214,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   </div>
   <button id="play-again-btn" onclick="resetGame()">PLAY AGAIN</button>
 </div>
-
+ 
 <script>
 // =====================
 // LOCATIONS — 100 cities across every continent
@@ -248,7 +248,7 @@ const locations = [
   { name:'Porto, Portugal',            lat:41.1579,   lng:-8.6291,   search:'porto portugal' },
   { name:'Florence, Italy',            lat:43.7696,   lng:11.2558,   search:'florence italy' },
   { name:'Venice, Italy',              lat:45.4408,   lng:12.3155,   search:'venice italy canal' },
-
+ 
   // Asia
   { name:'Tokyo, Japan',               lat:35.6762,   lng:139.6503,  search:'tokyo japan street' },
   { name:'Kyoto, Japan',               lat:35.0116,   lng:135.7681,  search:'kyoto japan temple' },
@@ -273,7 +273,7 @@ const locations = [
   { name:'Petra, Jordan',              lat:30.3285,   lng:35.4444,   search:'petra jordan' },
   { name:'Jerusalem, Israel',          lat:31.7683,   lng:35.2137,   search:'jerusalem israel old city' },
   { name:'Tbilisi, Georgia',           lat:41.6938,   lng:44.8015,   search:'tbilisi georgia' },
-
+ 
   // Americas
   { name:'New York, USA',              lat:40.7484,   lng:-73.9967,  search:'new york city street' },
   { name:'Los Angeles, USA',           lat:34.0522,   lng:-118.2437, search:'los angeles california' },
@@ -297,7 +297,7 @@ const locations = [
   { name:'Santiago, Chile',            lat:-33.4489,  lng:-70.6693,  search:'santiago chile' },
   { name:'Quito, Ecuador',             lat:-0.1807,   lng:-78.4678,  search:'quito ecuador' },
   { name:'La Paz, Bolivia',            lat:-16.5000,  lng:-68.1500,  search:'la paz bolivia' },
-
+ 
   // Africa
   { name:'Cairo, Egypt',               lat:29.9773,   lng:31.1325,   search:'cairo egypt pyramids' },
   { name:'Cape Town, South Africa',    lat:-33.9249,  lng:18.4241,   search:'cape town south africa' },
@@ -311,7 +311,7 @@ const locations = [
   { name:'Addis Ababa, Ethiopia',      lat:9.0320,    lng:38.7469,   search:'addis ababa ethiopia' },
   { name:'Zanzibar, Tanzania',         lat:-6.1659,   lng:39.2026,   search:'zanzibar tanzania beach' },
   { name:'Luanda, Angola',             lat:-8.8390,   lng:13.2894,   search:'luanda angola' },
-
+ 
   // Oceania
   { name:'Sydney, Australia',          lat:-33.8568,  lng:151.2153,  search:'sydney australia opera house' },
   { name:'Melbourne, Australia',       lat:-37.8136,  lng:144.9631,  search:'melbourne australia street' },
@@ -319,7 +319,7 @@ const locations = [
   { name:'Auckland, New Zealand',      lat:-36.8485,  lng:174.7633,  search:'auckland new zealand' },
   { name:'Queenstown, New Zealand',    lat:-45.0312,  lng:168.6626,  search:'queenstown new zealand mountains' },
   { name:'Fiji Islands',               lat:-17.7134,  lng:178.0650,  search:'fiji islands beach' },
-
+ 
   // Middle East / Central Asia
   { name:'Riyadh, Saudi Arabia',       lat:24.7136,   lng:46.6753,   search:'riyadh saudi arabia' },
   { name:'Tehran, Iran',               lat:35.6892,   lng:51.3890,   search:'tehran iran street' },
@@ -327,7 +327,7 @@ const locations = [
   { name:'Tashkent, Uzbekistan',       lat:41.2995,   lng:69.2401,   search:'tashkent uzbekistan' },
   { name:'Samarkand, Uzbekistan',      lat:39.6270,   lng:66.9750,   search:'samarkand uzbekistan' },
   { name:'Kabul, Afghanistan',         lat:34.5553,   lng:69.2075,   search:'kabul afghanistan' },
-
+ 
   // Russia / Eastern Europe
   { name:'Moscow, Russia',             lat:55.7558,   lng:37.6173,   search:'moscow russia red square' },
   { name:'Saint Petersburg, Russia',   lat:59.9311,   lng:30.3609,   search:'saint petersburg russia' },
@@ -335,14 +335,14 @@ const locations = [
   { name:'Bucharest, Romania',         lat:44.4268,   lng:26.1025,   search:'bucharest romania' },
   { name:'Sofia, Bulgaria',            lat:42.6977,   lng:23.3219,   search:'sofia bulgaria' },
 ];
-
+ 
 const ROUNDS = 5;
 let map, guessMarker, answerMarker, distanceLine;
 let currentLocation = null;
 let usedIndices = [];
 let round = 1, totalScore = 0, streak = 0;
 let pinPlaced = false;
-
+ 
 // =====================
 // UNSPLASH — random photo by search term
 // Uses the source URL which gives unlimited random photos
@@ -354,7 +354,7 @@ function getPhotoUrl(searchTerm) {
   const cb = Math.floor(Math.random() * 1000000);
   return `https://source.unsplash.com/800x500/?${encodeURIComponent(searchTerm)}&cb=${cb}`;
 }
-
+ 
 // =====================
 // MAP
 // =====================
@@ -365,7 +365,7 @@ function initMap() {
   }).addTo(map);
   map.on('click', onMapClick);
 }
-
+ 
 function makePin(color) {
   return L.divIcon({
     className:'',
@@ -373,7 +373,7 @@ function makePin(color) {
     iconSize:[26,26], iconAnchor:[13,26]
   });
 }
-
+ 
 function onMapClick(e) {
   if (pinPlaced) return;
   if (guessMarker) map.removeLayer(guessMarker);
@@ -384,7 +384,7 @@ function onMapClick(e) {
   document.getElementById('pin-status').textContent = 'Pin placed! Hit the button to confirm.';
   document.getElementById('pin-status').style.color = 'var(--accent)';
 }
-
+ 
 // =====================
 // SCORING
 // =====================
@@ -397,7 +397,7 @@ function calcScore(km) {
   if (km < 0.1) return 5000;
   return Math.round(5000 * Math.pow(Math.E, -km / 2000));
 }
-
+ 
 // =====================
 // ROUND FLOW
 // =====================
@@ -407,7 +407,7 @@ function startRound() {
   if (answerMarker) { map.removeLayer(answerMarker); answerMarker = null; }
   if (distanceLine) { map.removeLayer(distanceLine); distanceLine = null; }
   map.setView([20,0], 2);
-
+ 
   document.getElementById('result-card').style.display = 'none';
   document.getElementById('guess-btn-wrap').style.display = 'block';
   const btn = document.getElementById('guess-btn');
@@ -417,23 +417,23 @@ function startRound() {
   document.getElementById('pin-status').style.color = '';
   document.getElementById('next-btn').textContent = 'NEXT ROUND →';
   document.getElementById('score-bar-fill').style.width = '0%';
-
+ 
   // Pick location
   if (usedIndices.length >= locations.length) usedIndices = [];
   let idx;
   do { idx = Math.floor(Math.random() * locations.length); } while (usedIndices.includes(idx));
   usedIndices.push(idx);
   currentLocation = locations[idx];
-
+ 
   document.getElementById('round-num').textContent = round;
   document.getElementById('round-disp').textContent = round;
-
+ 
   // Load photo
   const loadingEl = document.getElementById('photo-loading');
   const photoEl   = document.getElementById('street-photo');
   loadingEl.style.display = 'flex';
   photoEl.style.opacity = '0';
-
+ 
   const url = getPhotoUrl(currentLocation.search);
   photoEl.onload = () => {
     loadingEl.style.display = 'none';
@@ -444,18 +444,18 @@ function startRound() {
   };
   photoEl.src = url;
 }
-
+ 
 function submitGuess() {
   if (!guessMarker) return;
   pinPlaced = true;
   document.getElementById('guess-btn-wrap').style.display = 'none';
-
+ 
   const g = guessMarker.getLatLng();
   const km = haversineKm(g.lat, g.lng, currentLocation.lat, currentLocation.lng);
   const pts = calcScore(km);
   totalScore += pts;
   if (pts >= 4000) streak++; else streak = 0;
-
+ 
   answerMarker = L.marker([currentLocation.lat, currentLocation.lng], { icon: makePin('#30d080') })
     .addTo(map).bindPopup(`<b>${currentLocation.name}</b>`).openPopup();
   distanceLine = L.polyline(
@@ -463,39 +463,39 @@ function submitGuess() {
     { color:'#f0c040', weight:2, dashArray:'8 5', opacity:0.8 }
   ).addTo(map);
   map.fitBounds(L.latLngBounds([g.lat,g.lng],[currentLocation.lat,currentLocation.lng]), { padding:[60,60] });
-
+ 
   const card = document.getElementById('result-card');
   card.style.display = 'flex';
-
+ 
   let label, color;
   if      (pts >= 4500) { label='🎯 PERFECT!';  color='var(--correct)'; }
   else if (pts >= 3000) { label='🔥 GREAT!';     color='var(--accent)'; }
   else if (pts >= 1500) { label='👍 NOT BAD!';   color='var(--accent2)'; }
   else                  { label='😬 FAR OFF...'; color='#e05a20'; }
-
+ 
   document.getElementById('result-verdict').textContent = label;
   document.getElementById('result-verdict').style.color = color;
-
+ 
   const distStr = km < 1
     ? `${Math.round(km*1000).toLocaleString()} meters`
     : `${Math.round(km).toLocaleString()} km`;
   document.getElementById('result-distance').innerHTML =
     `You were <strong>${distStr}</strong> away from <strong>${currentLocation.name}</strong>`;
-
+ 
   setTimeout(() => { document.getElementById('score-bar-fill').style.width = (pts/5000*100)+'%'; }, 100);
   document.getElementById('points-earned').innerHTML = `${pts.toLocaleString()} <span>points</span>`;
   document.getElementById('total-score').textContent = totalScore.toLocaleString();
   document.getElementById('streak-disp').textContent = streak;
-
+ 
   if (round >= ROUNDS) document.getElementById('next-btn').textContent = 'SEE RESULTS →';
 }
-
+ 
 function nextRound() {
   if (round >= ROUNDS) { showEndScreen(); return; }
   round++;
   startRound();
 }
-
+ 
 // =====================
 // END SCREEN
 // =====================
@@ -513,7 +513,7 @@ function showEndScreen() {
   const saved = localStorage.getItem('geo_discord_username');
   if (saved) document.getElementById('end-discord-username').value = saved;
 }
-
+ 
 // =====================
 // DISCORD SCORE SAVING
 // =====================
@@ -536,7 +536,7 @@ function saveScoreToDiscord() {
   document.getElementById('end-save-btn').textContent = '✅ Saved!';
   document.getElementById('end-save-btn').style.background = '#2d7a4a';
 }
-
+ 
 // =====================
 // SCOREBOARD PAGE
 // =====================
@@ -565,7 +565,7 @@ function checkScoreboardMode() {
   `;
   document.body.appendChild(div);
 }
-
+ 
 // =====================
 // RESET
 // =====================
@@ -579,7 +579,7 @@ function resetGame() {
   document.getElementById('end-save-status').style.display='none';
   startRound();
 }
-
+ 
 checkScoreboardMode();
 initMap();
 startRound();
