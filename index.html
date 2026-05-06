@@ -46,31 +46,23 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--accent); line-height: 1; }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 
-/* Photo / Street View */
-#photo-wrap { position: relative; flex-shrink: 0; background: #000; }
+#photo-wrap { position: relative; flex-shrink: 0; background: #000; min-height: 220px; }
 #street-photo { width: 100%; height: 220px; object-fit: cover; display: block; transition: opacity 0.5s; }
 #photo-loading {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   background: #0a0e1a; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
-  color: var(--muted); font-size: 1rem; flex-direction: column; gap: 0.5rem;
+  color: var(--muted); font-size: 1rem; flex-direction: column; gap: 0.5rem; z-index: 2;
 }
-.spinner {
-  width: 28px; height: 28px; border: 3px solid var(--border);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
+.spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-#photo-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, var(--surface)); pointer-events: none; }
+#photo-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, var(--surface)); pointer-events: none; z-index: 1; }
 #round-tag {
-  position: absolute; top: 0.7rem; left: 0.7rem;
+  position: absolute; top: 0.7rem; left: 0.7rem; z-index: 3;
   background: rgba(0,0,0,0.75); border: 1px solid var(--accent);
   color: var(--accent); font-family: 'Bebas Neue', sans-serif;
   font-size: 0.8rem; letter-spacing: 2px; padding: 0.2rem 0.6rem; border-radius: 3px;
 }
-#photo-credit {
-  position: absolute; bottom: 0.4rem; right: 0.6rem;
-  font-size: 0.6rem; color: rgba(255,255,255,0.4);
-}
+#photo-credit { position: absolute; bottom: 0.4rem; right: 0.6rem; font-size: 0.6rem; color: rgba(255,255,255,0.4); z-index: 3; }
 
 #instructions {
   padding: 0.8rem 1.2rem; font-size: 0.8rem; color: var(--muted);
@@ -110,31 +102,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 }
 #next-btn:hover { background: rgba(240,192,64,0.08); }
 
-/* Discord score panel */
-#discord-panel {
-  padding: 0.8rem 1.2rem; border-top: 1px solid var(--border);
-  flex-shrink: 0; display: none; flex-direction: column; gap: 0.5rem;
-}
-#discord-panel.show { display: flex; }
-#discord-panel label { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-#discord-input-row { display: flex; gap: 0.5rem; }
-#discord-username {
-  flex: 1; background: var(--bg); border: 1px solid var(--border);
-  color: var(--text); padding: 0.5rem 0.7rem; border-radius: 6px;
-  font-family: 'Syne', sans-serif; font-size: 0.85rem; outline: none;
-  transition: border-color 0.2s;
-}
-#discord-username:focus { border-color: var(--accent); }
-#discord-username::placeholder { color: var(--muted); }
-#save-score-btn {
-  background: #5865F2; color: #fff; border: none; padding: 0.5rem 1rem;
-  border-radius: 6px; font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: 0.85rem; cursor: pointer; transition: background 0.2s; white-space: nowrap;
-}
-#save-score-btn:hover { background: #4752c4; }
-#discord-status { font-size: 0.75rem; color: var(--correct); display: none; }
-#saved-scores-list { font-size: 0.72rem; color: var(--muted); line-height: 1.6; }
-
 #total-wrap {
   margin-top: auto; padding: 0.7rem 1.2rem;
   border-top: 1px solid var(--border); display: flex;
@@ -146,7 +113,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 #map-container { position: relative; }
 #map { width: 100%; height: 100%; }
 
-/* End screen */
 #end-screen {
   display: none; position: fixed; inset: 0;
   background: rgba(8,12,18,0.97); z-index: 999;
@@ -157,12 +123,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 #final-score { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: var(--accent); line-height: 1; }
 #final-score span { font-size: 1rem; color: var(--muted); display: block; text-align: center; font-family: 'Syne', sans-serif; }
 #end-grade { font-size: 0.95rem; color: var(--muted); text-align: center; max-width: 300px; line-height: 1.6; }
-
-/* Discord save on end screen */
-#end-discord {
-  display: flex; flex-direction: column; gap: 0.5rem;
-  align-items: center; width: 100%; max-width: 320px;
-}
+#end-discord { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; width: 100%; max-width: 320px; }
 #end-discord label { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 #end-discord-row { display: flex; gap: 0.5rem; width: 100%; }
 #end-discord-username {
@@ -172,13 +133,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 }
 #end-discord-username:focus { border-color: var(--accent); }
 #end-discord-username::placeholder { color: var(--muted); }
-#end-save-btn {
-  background: #5865F2; color: #fff; border: none; padding: 0.5rem 1rem;
-  border-radius: 6px; font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: 0.85rem; cursor: pointer;
-}
+#end-save-btn { background: #5865F2; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
 #end-save-status { font-size: 0.75rem; color: var(--correct); display: none; }
-
 #play-again-btn {
   background: linear-gradient(135deg, var(--accent), #c89010); color: #000;
   font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 3px;
@@ -210,7 +166,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
       <img id="street-photo" src="" alt="Guess this location" style="opacity:0"/>
       <div id="photo-overlay"></div>
       <div id="round-tag">ROUND <span id="round-num">1</span></div>
-      <div id="photo-credit">📷 Mapillary</div>
+      <div id="photo-credit">📷 Unsplash</div>
     </div>
 
     <div id="instructions">
@@ -244,81 +200,140 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   </div>
 </div>
 
-<!-- End Screen -->
 <div id="end-screen">
   <h2>Game Over</h2>
   <div id="final-score">0 <span>out of 25,000</span></div>
   <div id="end-grade"></div>
-
   <div id="end-discord">
     <label>💬 Save score to Discord scoreboard</label>
     <div id="end-discord-row">
       <input id="end-discord-username" type="text" placeholder="Your Discord username"/>
       <button id="end-save-btn" onclick="saveScoreToDiscord()">Save</button>
     </div>
-    <div id="end-save-status">✅ Score saved! Use /scoreboard in Discord to see it.</div>
+    <div id="end-save-status">✅ Score saved! Use /scoreboard in Discord.</div>
   </div>
-
   <button id="play-again-btn" onclick="resetGame()">PLAY AGAIN</button>
 </div>
 
 <script>
 // =====================
-// MAPILLARY CONFIG
-// =====================
-const MAPILLARY_TOKEN = 'MLY|26851249527850849|7c2747f1312bde40442fa56f49261b6c';
-
-// =====================
-// LOCATIONS
-// Spread across the whole world for variety
-// Each has lat/lng for scoring AND a search area for Mapillary
+// LOCATIONS — 100 cities across every continent
+// Each has a "search" keyword used to fetch a random
+// Unsplash photo, giving unlimited variety
 // =====================
 const locations = [
-  { name:'Paris, France',             lat:48.8584,   lng:2.2945,    bbox:'2.28,48.85,2.31,48.87' },
-  { name:'Tokyo, Japan',              lat:35.6762,   lng:139.6503,  bbox:'139.64,35.67,139.66,35.69' },
-  { name:'Rio de Janeiro, Brazil',    lat:-22.9068,  lng:-43.1729,  bbox:'-43.18,-22.92,-43.16,-22.90' },
-  { name:'Cairo, Egypt',              lat:29.9773,   lng:31.1325,   bbox:'31.12,29.96,31.14,29.98' },
-  { name:'Sydney, Australia',         lat:-33.8568,  lng:151.2153,  bbox:'151.20,-33.87,151.23,-33.85' },
-  { name:'Rome, Italy',               lat:41.8902,   lng:12.4922,   bbox:'12.48,41.88,12.50,41.90' },
-  { name:'New York, USA',             lat:40.7484,   lng:-73.9967,  bbox:'-74.01,40.74,-73.99,40.76' },
-  { name:'London, UK',                lat:51.5074,   lng:-0.1278,   bbox:'-0.14,51.50,-0.12,51.52' },
-  { name:'Mumbai, India',             lat:19.0760,   lng:72.8777,   bbox:'72.86,19.06,72.88,19.08' },
-  { name:'Beijing, China',            lat:39.9042,   lng:116.4074,  bbox:'116.39,39.89,116.41,39.91' },
-  { name:'Toronto, Canada',           lat:43.6532,   lng:-79.3832,  bbox:'-79.39,43.64,-79.37,43.66' },
-  { name:'Mexico City, Mexico',       lat:19.4326,   lng:-99.1332,  bbox:'-99.14,19.42,-99.12,19.44' },
-  { name:'Cape Town, South Africa',   lat:-33.9249,  lng:18.4241,   bbox:'18.41,-33.94,18.43,-33.92' },
-  { name:'Moscow, Russia',            lat:55.7558,   lng:37.6173,   bbox:'37.60,55.74,37.62,55.76' },
-  { name:'Berlin, Germany',           lat:52.5200,   lng:13.4050,   bbox:'13.39,52.51,13.41,52.53' },
-  { name:'Barcelona, Spain',          lat:41.3851,   lng:2.1734,    bbox:'2.16,41.37,2.18,41.39' },
-  { name:'Buenos Aires, Argentina',   lat:-34.6037,  lng:-58.3816,  bbox:'-58.39,-34.61,-58.37,-34.59' },
-  { name:'Istanbul, Turkey',          lat:41.0082,   lng:28.9784,   bbox:'28.96,40.99,28.98,41.01' },
-  { name:'Bangkok, Thailand',         lat:13.7563,   lng:100.5018,  bbox:'100.49,13.74,100.51,13.76' },
-  { name:'Lagos, Nigeria',            lat:6.5244,    lng:3.3792,    bbox:'3.37,6.51,3.39,6.53' },
-  { name:'Nairobi, Kenya',            lat:-1.2921,   lng:36.8219,   bbox:'36.81,-1.30,36.83,-1.28' },
-  { name:'Johannesburg, South Africa',lat:-26.2041,  lng:28.0473,   bbox:'28.03,-26.21,28.05,-26.19' },
-  { name:'Dubai, UAE',                lat:25.2048,   lng:55.2708,   bbox:'55.26,25.19,55.28,25.21' },
-  { name:'Singapore',                 lat:1.3521,    lng:103.8198,  bbox:'103.81,1.34,103.83,1.36' },
-  { name:'Seoul, South Korea',        lat:37.5665,   lng:126.9780,  bbox:'126.97,37.55,126.99,37.57' },
-  { name:'Jakarta, Indonesia',        lat:-6.2088,   lng:106.8456,  bbox:'106.83,-6.22,106.85,-6.20' },
-  { name:'Kuala Lumpur, Malaysia',    lat:3.1390,    lng:101.6869,  bbox:'101.67,3.12,101.69,3.14' },
-  { name:'Manila, Philippines',       lat:14.5995,   lng:120.9842,  bbox:'120.97,14.58,120.99,14.60' },
-  { name:'Lisbon, Portugal',          lat:38.7223,   lng:-9.1393,   bbox:'-9.15,38.71,-9.13,38.73' },
-  { name:'Amsterdam, Netherlands',    lat:52.3676,   lng:4.9041,    bbox:'4.89,52.36,4.91,52.38' },
-  { name:'Vienna, Austria',           lat:48.2082,   lng:16.3738,   bbox:'16.36,48.20,16.38,48.22' },
-  { name:'Prague, Czech Republic',    lat:50.0755,   lng:14.4378,   bbox:'14.42,50.06,14.44,50.08' },
-  { name:'Warsaw, Poland',            lat:52.2297,   lng:21.0122,   bbox:'21.00,52.22,21.02,52.24' },
-  { name:'Athens, Greece',            lat:37.9838,   lng:23.7275,   bbox:'23.71,37.97,23.73,37.99' },
-  { name:'Lima, Peru',                lat:-12.0464,  lng:-77.0428,  bbox:'-77.05,-12.05,-77.03,-12.03' },
-  { name:'Bogota, Colombia',          lat:4.7110,    lng:-74.0721,  bbox:'-74.08,4.70,-74.06,4.72' },
-  { name:'Santiago, Chile',           lat:-33.4489,  lng:-70.6693,  bbox:'-70.68,-33.46,-70.66,-33.44' },
-  { name:'Casablanca, Morocco',       lat:33.5731,   lng:-7.5898,   bbox:'-7.60,33.56,-7.58,33.58' },
-  { name:'Accra, Ghana',              lat:5.6037,    lng:-0.1870,   bbox:'-0.20,5.59,-0.18,5.61' },
-  { name:'Kathmandu, Nepal',          lat:27.7172,   lng:85.3240,   bbox:'85.31,27.70,85.33,27.72' },
-  { name:'Oslo, Norway',              lat:59.9139,   lng:10.7522,   bbox:'10.74,59.90,10.76,59.92' },
-  { name:'Stockholm, Sweden',         lat:59.3293,   lng:18.0686,   bbox:'18.05,59.32,18.07,59.34' },
-  { name:'Helsinki, Finland',         lat:60.1699,   lng:24.9384,   bbox:'24.92,60.16,24.94,60.18' },
-  { name:'Zurich, Switzerland',       lat:47.3769,   lng:8.5417,    bbox:'8.53,47.37,8.55,47.39' },
-  { name:'Brussels, Belgium',         lat:50.8503,   lng:4.3517,    bbox:'4.34,50.84,4.36,50.86' },
+  // Europe
+  { name:'Paris, France',              lat:48.8584,   lng:2.2945,    search:'paris france street' },
+  { name:'Rome, Italy',                lat:41.8902,   lng:12.4922,   search:'rome italy colosseum' },
+  { name:'Barcelona, Spain',           lat:41.3851,   lng:2.1734,    search:'barcelona spain' },
+  { name:'Berlin, Germany',            lat:52.5200,   lng:13.4050,   search:'berlin germany street' },
+  { name:'Amsterdam, Netherlands',     lat:52.3676,   lng:4.9041,    search:'amsterdam canal street' },
+  { name:'Prague, Czech Republic',     lat:50.0755,   lng:14.4378,   search:'prague czech republic' },
+  { name:'Vienna, Austria',            lat:48.2082,   lng:16.3738,   search:'vienna austria' },
+  { name:'Athens, Greece',             lat:37.9838,   lng:23.7275,   search:'athens greece acropolis' },
+  { name:'Lisbon, Portugal',           lat:38.7223,   lng:-9.1393,   search:'lisbon portugal street' },
+  { name:'Brussels, Belgium',          lat:50.8503,   lng:4.3517,    search:'brussels belgium' },
+  { name:'Budapest, Hungary',          lat:47.4979,   lng:19.0402,   search:'budapest hungary' },
+  { name:'Warsaw, Poland',             lat:52.2297,   lng:21.0122,   search:'warsaw poland' },
+  { name:'Oslo, Norway',               lat:59.9139,   lng:10.7522,   search:'oslo norway fjord' },
+  { name:'Stockholm, Sweden',          lat:59.3293,   lng:18.0686,   search:'stockholm sweden' },
+  { name:'Helsinki, Finland',          lat:60.1699,   lng:24.9384,   search:'helsinki finland' },
+  { name:'Copenhagen, Denmark',        lat:55.6761,   lng:12.5683,   search:'copenhagen denmark' },
+  { name:'Dublin, Ireland',            lat:53.3498,   lng:-6.2603,   search:'dublin ireland' },
+  { name:'Edinburgh, Scotland',        lat:55.9533,   lng:-3.1883,   search:'edinburgh scotland castle' },
+  { name:'Zurich, Switzerland',        lat:47.3769,   lng:8.5417,    search:'zurich switzerland' },
+  { name:'Reykjavik, Iceland',         lat:64.1355,   lng:-21.8954,  search:'reykjavik iceland' },
+  { name:'Dubrovnik, Croatia',         lat:42.6507,   lng:18.0944,   search:'dubrovnik croatia' },
+  { name:'Santorini, Greece',          lat:36.3932,   lng:25.4615,   search:'santorini greece' },
+  { name:'Porto, Portugal',            lat:41.1579,   lng:-8.6291,   search:'porto portugal' },
+  { name:'Florence, Italy',            lat:43.7696,   lng:11.2558,   search:'florence italy' },
+  { name:'Venice, Italy',              lat:45.4408,   lng:12.3155,   search:'venice italy canal' },
+
+  // Asia
+  { name:'Tokyo, Japan',               lat:35.6762,   lng:139.6503,  search:'tokyo japan street' },
+  { name:'Kyoto, Japan',               lat:35.0116,   lng:135.7681,  search:'kyoto japan temple' },
+  { name:'Seoul, South Korea',         lat:37.5665,   lng:126.9780,  search:'seoul south korea' },
+  { name:'Beijing, China',             lat:39.9042,   lng:116.4074,  search:'beijing china great wall' },
+  { name:'Shanghai, China',            lat:31.2304,   lng:121.4737,  search:'shanghai china skyline' },
+  { name:'Hong Kong',                  lat:22.3193,   lng:114.1694,  search:'hong kong skyline street' },
+  { name:'Singapore',                  lat:1.3521,    lng:103.8198,  search:'singapore city' },
+  { name:'Bangkok, Thailand',          lat:13.7563,   lng:100.5018,  search:'bangkok thailand temple' },
+  { name:'Bali, Indonesia',            lat:-8.3405,   lng:115.0920,  search:'bali indonesia temple' },
+  { name:'Hanoi, Vietnam',             lat:21.0285,   lng:105.8542,  search:'hanoi vietnam street' },
+  { name:'Ho Chi Minh City, Vietnam',  lat:10.8231,   lng:106.6297,  search:'ho chi minh city vietnam' },
+  { name:'Kuala Lumpur, Malaysia',     lat:3.1390,    lng:101.6869,  search:'kuala lumpur malaysia' },
+  { name:'Manila, Philippines',        lat:14.5995,   lng:120.9842,  search:'manila philippines' },
+  { name:'Mumbai, India',              lat:19.0760,   lng:72.8777,   search:'mumbai india street' },
+  { name:'Delhi, India',               lat:28.7041,   lng:77.1025,   search:'delhi india street' },
+  { name:'Agra, India',                lat:27.1751,   lng:78.0421,   search:'agra india taj mahal' },
+  { name:'Kathmandu, Nepal',           lat:27.7172,   lng:85.3240,   search:'kathmandu nepal' },
+  { name:'Colombo, Sri Lanka',         lat:6.9271,    lng:79.8612,   search:'colombo sri lanka' },
+  { name:'Dubai, UAE',                 lat:25.2048,   lng:55.2708,   search:'dubai uae skyline' },
+  { name:'Istanbul, Turkey',           lat:41.0082,   lng:28.9784,   search:'istanbul turkey mosque' },
+  { name:'Petra, Jordan',              lat:30.3285,   lng:35.4444,   search:'petra jordan' },
+  { name:'Jerusalem, Israel',          lat:31.7683,   lng:35.2137,   search:'jerusalem israel old city' },
+  { name:'Tbilisi, Georgia',           lat:41.6938,   lng:44.8015,   search:'tbilisi georgia' },
+
+  // Americas
+  { name:'New York, USA',              lat:40.7484,   lng:-73.9967,  search:'new york city street' },
+  { name:'Los Angeles, USA',           lat:34.0522,   lng:-118.2437, search:'los angeles california' },
+  { name:'Chicago, USA',               lat:41.8781,   lng:-87.6298,  search:'chicago illinois skyline' },
+  { name:'San Francisco, USA',         lat:37.7749,   lng:-122.4194, search:'san francisco golden gate' },
+  { name:'Miami, USA',                 lat:25.7617,   lng:-80.1918,  search:'miami florida beach' },
+  { name:'New Orleans, USA',           lat:29.9511,   lng:-90.0715,  search:'new orleans louisiana street' },
+  { name:'Las Vegas, USA',             lat:36.1699,   lng:-115.1398, search:'las vegas nevada strip' },
+  { name:'Toronto, Canada',            lat:43.6532,   lng:-79.3832,  search:'toronto canada cn tower' },
+  { name:'Vancouver, Canada',          lat:49.2827,   lng:-123.1207, search:'vancouver canada mountains' },
+  { name:'Montreal, Canada',           lat:45.5017,   lng:-73.5673,  search:'montreal canada street' },
+  { name:'Mexico City, Mexico',        lat:19.4326,   lng:-99.1332,  search:'mexico city street' },
+  { name:'Havana, Cuba',               lat:23.1136,   lng:-82.3666,  search:'havana cuba street' },
+  { name:'Rio de Janeiro, Brazil',     lat:-22.9068,  lng:-43.1729,  search:'rio de janeiro brazil' },
+  { name:'São Paulo, Brazil',          lat:-23.5505,  lng:-46.6333,  search:'sao paulo brazil street' },
+  { name:'Buenos Aires, Argentina',    lat:-34.6037,  lng:-58.3816,  search:'buenos aires argentina' },
+  { name:'Lima, Peru',                 lat:-12.0464,  lng:-77.0428,  search:'lima peru street' },
+  { name:'Machu Picchu, Peru',         lat:-13.1631,  lng:-72.5450,  search:'machu picchu peru' },
+  { name:'Bogota, Colombia',           lat:4.7110,    lng:-74.0721,  search:'bogota colombia' },
+  { name:'Cartagena, Colombia',        lat:10.3910,   lng:-75.4794,  search:'cartagena colombia' },
+  { name:'Santiago, Chile',            lat:-33.4489,  lng:-70.6693,  search:'santiago chile' },
+  { name:'Quito, Ecuador',             lat:-0.1807,   lng:-78.4678,  search:'quito ecuador' },
+  { name:'La Paz, Bolivia',            lat:-16.5000,  lng:-68.1500,  search:'la paz bolivia' },
+
+  // Africa
+  { name:'Cairo, Egypt',               lat:29.9773,   lng:31.1325,   search:'cairo egypt pyramids' },
+  { name:'Cape Town, South Africa',    lat:-33.9249,  lng:18.4241,   search:'cape town south africa' },
+  { name:'Johannesburg, South Africa', lat:-26.2041,  lng:28.0473,   search:'johannesburg south africa' },
+  { name:'Nairobi, Kenya',             lat:-1.2921,   lng:36.8219,   search:'nairobi kenya street' },
+  { name:'Lagos, Nigeria',             lat:6.5244,    lng:3.3792,    search:'lagos nigeria street' },
+  { name:'Accra, Ghana',               lat:5.6037,    lng:-0.1870,   search:'accra ghana street' },
+  { name:'Marrakech, Morocco',         lat:31.6295,   lng:-7.9811,   search:'marrakech morocco medina' },
+  { name:'Casablanca, Morocco',        lat:33.5731,   lng:-7.5898,   search:'casablanca morocco' },
+  { name:'Tunis, Tunisia',             lat:36.8065,   lng:10.1815,   search:'tunis tunisia medina' },
+  { name:'Addis Ababa, Ethiopia',      lat:9.0320,    lng:38.7469,   search:'addis ababa ethiopia' },
+  { name:'Zanzibar, Tanzania',         lat:-6.1659,   lng:39.2026,   search:'zanzibar tanzania beach' },
+  { name:'Luanda, Angola',             lat:-8.8390,   lng:13.2894,   search:'luanda angola' },
+
+  // Oceania
+  { name:'Sydney, Australia',          lat:-33.8568,  lng:151.2153,  search:'sydney australia opera house' },
+  { name:'Melbourne, Australia',       lat:-37.8136,  lng:144.9631,  search:'melbourne australia street' },
+  { name:'Brisbane, Australia',        lat:-27.4698,  lng:153.0251,  search:'brisbane australia' },
+  { name:'Auckland, New Zealand',      lat:-36.8485,  lng:174.7633,  search:'auckland new zealand' },
+  { name:'Queenstown, New Zealand',    lat:-45.0312,  lng:168.6626,  search:'queenstown new zealand mountains' },
+  { name:'Fiji Islands',               lat:-17.7134,  lng:178.0650,  search:'fiji islands beach' },
+
+  // Middle East / Central Asia
+  { name:'Riyadh, Saudi Arabia',       lat:24.7136,   lng:46.6753,   search:'riyadh saudi arabia' },
+  { name:'Tehran, Iran',               lat:35.6892,   lng:51.3890,   search:'tehran iran street' },
+  { name:'Almaty, Kazakhstan',         lat:43.2220,   lng:76.8512,   search:'almaty kazakhstan' },
+  { name:'Tashkent, Uzbekistan',       lat:41.2995,   lng:69.2401,   search:'tashkent uzbekistan' },
+  { name:'Samarkand, Uzbekistan',      lat:39.6270,   lng:66.9750,   search:'samarkand uzbekistan' },
+  { name:'Kabul, Afghanistan',         lat:34.5553,   lng:69.2075,   search:'kabul afghanistan' },
+
+  // Russia / Eastern Europe
+  { name:'Moscow, Russia',             lat:55.7558,   lng:37.6173,   search:'moscow russia red square' },
+  { name:'Saint Petersburg, Russia',   lat:59.9311,   lng:30.3609,   search:'saint petersburg russia' },
+  { name:'Kyiv, Ukraine',              lat:50.4501,   lng:30.5234,   search:'kyiv ukraine street' },
+  { name:'Bucharest, Romania',         lat:44.4268,   lng:26.1025,   search:'bucharest romania' },
+  { name:'Sofia, Bulgaria',            lat:42.6977,   lng:23.3219,   search:'sofia bulgaria' },
 ];
 
 const ROUNDS = 5;
@@ -329,35 +344,19 @@ let round = 1, totalScore = 0, streak = 0;
 let pinPlaced = false;
 
 // =====================
-// SCORES (stored in localStorage)
+// UNSPLASH — random photo by search term
+// Uses the source URL which gives unlimited random photos
+// per search keyword, no API key needed
 // =====================
-function getScores() {
-  try { return JSON.parse(localStorage.getItem('geo_scores') || '{}'); } catch { return {}; }
-}
-function saveScores(s) {
-  try { localStorage.setItem('geo_scores', JSON.stringify(s)); } catch {}
-}
-
-// =====================
-// MAPILLARY — fetch a real street photo near a location
-// =====================
-async function fetchMapillaryPhoto(bbox) {
-  try {
-    const url = `https://graph.mapillary.com/images?access_token=${MAPILLARY_TOKEN}&fields=id,thumb_2048_url&bbox=${bbox}&limit=50`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.data && data.data.length > 0) {
-      const pick = data.data[Math.floor(Math.random() * Math.min(data.data.length, 20))];
-      return pick.thumb_2048_url;
-    }
-  } catch (e) {
-    console.warn('Mapillary fetch failed:', e);
-  }
-  return null;
+function getPhotoUrl(searchTerm) {
+  // Unsplash source gives a random photo matching the search term
+  // Adding a cache-buster so each round gets a different photo
+  const cb = Math.floor(Math.random() * 1000000);
+  return `https://source.unsplash.com/800x500/?${encodeURIComponent(searchTerm)}&cb=${cb}`;
 }
 
 // =====================
-// MAP INIT
+// MAP
 // =====================
 function initMap() {
   map = L.map('map', { center:[20,0], zoom:2, minZoom:2, maxZoom:18 });
@@ -402,7 +401,7 @@ function calcScore(km) {
 // =====================
 // ROUND FLOW
 // =====================
-async function startRound() {
+function startRound() {
   pinPlaced = false;
   if (guessMarker)  { map.removeLayer(guessMarker);  guessMarker  = null; }
   if (answerMarker) { map.removeLayer(answerMarker); answerMarker = null; }
@@ -417,6 +416,7 @@ async function startRound() {
   document.getElementById('pin-status').textContent = 'Click the map to place your pin';
   document.getElementById('pin-status').style.color = '';
   document.getElementById('next-btn').textContent = 'NEXT ROUND →';
+  document.getElementById('score-bar-fill').style.width = '0%';
 
   // Pick location
   if (usedIndices.length >= locations.length) usedIndices = [];
@@ -428,26 +428,21 @@ async function startRound() {
   document.getElementById('round-num').textContent = round;
   document.getElementById('round-disp').textContent = round;
 
-  // Show loading spinner
+  // Load photo
   const loadingEl = document.getElementById('photo-loading');
   const photoEl   = document.getElementById('street-photo');
   loadingEl.style.display = 'flex';
   photoEl.style.opacity = '0';
 
-  // Fetch Mapillary photo
-  const photoUrl = await fetchMapillaryPhoto(currentLocation.bbox);
-  if (photoUrl) {
-    photoEl.onload = () => {
-      loadingEl.style.display = 'none';
-      photoEl.style.opacity = '1';
-    };
-    photoEl.onerror = () => {
-      loadingEl.innerHTML = '📷 Photo unavailable<br><small style="font-size:0.7rem;letter-spacing:1px">Make your best guess!</small>';
-    };
-    photoEl.src = photoUrl;
-  } else {
+  const url = getPhotoUrl(currentLocation.search);
+  photoEl.onload = () => {
+    loadingEl.style.display = 'none';
+    photoEl.style.opacity = '1';
+  };
+  photoEl.onerror = () => {
     loadingEl.innerHTML = '📷 Photo unavailable<br><small style="font-size:0.7rem;letter-spacing:1px">Make your best guess!</small>';
-  }
+  };
+  photoEl.src = url;
 }
 
 function submitGuess() {
@@ -469,7 +464,6 @@ function submitGuess() {
   ).addTo(map);
   map.fitBounds(L.latLngBounds([g.lat,g.lng],[currentLocation.lat,currentLocation.lng]), { padding:[60,60] });
 
-  // Result card
   const card = document.getElementById('result-card');
   card.style.display = 'flex';
 
@@ -516,30 +510,28 @@ function showEndScreen() {
   else if (pct>=0.5) grade = '🗺️ Getting there! Keep exploring and you\'ll improve fast.';
   else               grade = '🧭 Geography rookie! But hey — now you know where these places are!';
   document.getElementById('end-grade').textContent = grade;
-
-  // Pre-fill discord username if saved
   const saved = localStorage.getItem('geo_discord_username');
   if (saved) document.getElementById('end-discord-username').value = saved;
 }
 
 // =====================
 // DISCORD SCORE SAVING
-// Saves to localStorage so the Discord bot can read scores
-// via /scoreboard command displaying top scores
 // =====================
+function getScores() {
+  try { return JSON.parse(localStorage.getItem('geo_scores') || '{}'); } catch { return {}; }
+}
+function saveScores(s) {
+  try { localStorage.setItem('geo_scores', JSON.stringify(s)); } catch {}
+}
 function saveScoreToDiscord() {
   const username = document.getElementById('end-discord-username').value.trim();
   if (!username) return;
-
   localStorage.setItem('geo_discord_username', username);
-
   const scores = getScores();
-  const prev = scores[username] || 0;
-  if (totalScore > prev) {
+  if (totalScore > (scores[username] || 0)) {
     scores[username] = totalScore;
     saveScores(scores);
   }
-
   document.getElementById('end-save-status').style.display = 'block';
   document.getElementById('end-save-btn').textContent = '✅ Saved!';
   document.getElementById('end-save-btn').style.background = '#2d7a4a';
@@ -547,17 +539,12 @@ function saveScoreToDiscord() {
 
 // =====================
 // SCOREBOARD PAGE
-// Discord bot links here with ?scoreboard=1
 // =====================
 function checkScoreboardMode() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('scoreboard') !== '1') return;
-
+  if (new URLSearchParams(window.location.search).get('scoreboard') !== '1') return;
+  document.getElementById('game').style.display = 'none';
   const scores = getScores();
   const entries = Object.entries(scores).sort((a,b) => b[1]-a[1]);
-
-  document.getElementById('game').style.display = 'none';
-
   const div = document.createElement('div');
   div.style.cssText = 'max-width:500px;margin:4rem auto;padding:2rem;font-family:Syne,sans-serif;';
   div.innerHTML = `
@@ -565,7 +552,7 @@ function checkScoreboardMode() {
       🏆 SCOREBOARD
     </h1>
     ${entries.length === 0
-      ? '<p style="color:#4a6a8a;">No scores saved yet. Play a game first!</p>'
+      ? '<p style="color:#4a6a8a;">No scores yet. Play a game first!</p>'
       : entries.map(([user,score],i) => `
           <div style="display:flex;justify-content:space-between;align-items:center;padding:0.8rem 1rem;margin-bottom:0.5rem;background:#0f1620;border:1px solid #1c2a3a;border-radius:8px;">
             <span style="color:${i===0?'#f0c040':i===1?'#aaa':i===2?'#cd7f32':'#ddeeff'};font-weight:700;">
@@ -590,13 +577,9 @@ function resetGame() {
   document.getElementById('end-save-btn').textContent='Save';
   document.getElementById('end-save-btn').style.background='#5865F2';
   document.getElementById('end-save-status').style.display='none';
-  document.getElementById('score-bar-fill').style.width='0%';
   startRound();
 }
 
-// =====================
-// BOOT
-// =====================
 checkScoreboardMode();
 initMap();
 startRound();
